@@ -67,7 +67,7 @@ class UserControllerTest {
 		billingAddressDto.setType("billing");
 		billingAddressDto.setCity("McLean");
 		billingAddressDto.setCountry("US");
-		;
+		
 		billingAddressDto.setPostalCode("123875");
 		billingAddressDto.setStreetName("1Some street name");
 
