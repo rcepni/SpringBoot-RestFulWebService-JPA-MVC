@@ -98,13 +98,13 @@
 			<artifactId>junit-jupiter-api</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
+	<!-- https://mvnrepository.com/artifact/com.h2database/h2 -->
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>runtime</scope>
 		</dependency>
-
+	
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -118,7 +118,6 @@
 
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.7.0</version>
 				<configuration>
 					<fork>true</fork>
 					<!-- <executable>C:\Program Files\Java\jdk1.8.0_201\bin</executable> -->
