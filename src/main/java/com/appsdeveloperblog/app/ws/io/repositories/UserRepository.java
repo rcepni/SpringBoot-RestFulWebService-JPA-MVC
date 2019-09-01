@@ -31,7 +31,7 @@ import com.appsdeveloperblog.app.ws.io.entity.UserEntity;
 	@Query(value="select * from Users u where u.first_name=?1",nativeQuery=true)
 	List<UserEntity> findUserByFirstName(String firstName);
 	
-	@Query(value="select * from Users u where u.last_name=lastName",nativeQuery=true)
+	@Query(value="select * from Users u where u.last_name=:lastName",nativeQuery=true)
 	List<UserEntity> findUserByLastName(@Param("lastName")String lastName);
 }
 
