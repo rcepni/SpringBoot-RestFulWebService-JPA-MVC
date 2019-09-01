@@ -1,4 +1,9 @@
 package com.appsdeveloperblog.app.ws.io.repositories;
+import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
@@ -12,4 +17,16 @@ import com.appsdeveloperblog.app.ws.io.entity.UserEntity;
 	UserEntity findByuserId(String userId);
 	UserEntity findUserByEmailVerificationToken(String token);
 	
+	@Query(value="select * from Users u where u.EMAIL_VERIFICATION_STATUS='true'",
+			countQuery="select count(*) from Users u where  u.EMAIL_VERIFICATION_STATUS='true'",
+			nativeQuery=true
+			)
+	Page<UserEntity> findAllUsersWithConfirmedEmailAddress(Pageable pageableRequest);
+	
+	
+//	POSITIONAL PARAMETERS
+//	@Query(value="select * from Users u where u.first_name=?1,and u.last_name=?2",nativeQuery=true)
+//	List<UserEntity> findUserByFirstName(String firstName,String lastName);
+	@Query(value="select * from Users u where u.first_name=?1",nativeQuery=true)
+	List<UserEntity> findUserByFirstName(String firstName);
 }
