@@ -56,6 +56,20 @@ assertTrue(userEntities.size()==1);
 	assertTrue(user.getFirstName().equals(firstName));
 	}
 	
+
+	@Test
+	final void testFindUserByLastName() {
+		String lastName="Abraham";
+	List<UserEntity> users=	userRepository.findUserByFirstName(lastName);
+	assertNotNull(users);
+	assertTrue(users.size()==2);
+	
+	UserEntity user=users.get(0);
+	assertTrue(user.getFirstName().equals(lastName));
+	}
+	
+	
+	
 	private void  createRecords() {
 		
 		UserEntity	userEntity=new UserEntity();
