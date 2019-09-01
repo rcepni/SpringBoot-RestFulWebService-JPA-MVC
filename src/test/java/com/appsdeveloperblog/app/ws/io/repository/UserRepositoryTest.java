@@ -34,15 +34,15 @@ class UserRepositoryTest {
 
 	}
 
-	@Test
-	void testGetVerifiedUsers() {
+@Test
+void testGetVerifiedUsers() {
 Pageable pageableRequest=PageRequest.of(1, 1);
 Page<UserEntity> page=	userRepository.findAllUsersWithConfirmedEmailAddress(pageableRequest);
 assertNotNull(page);
 		
 List<UserEntity> userEntities=page.getContent();
 assertNotNull(userEntities);
-assertTrue(userEntities.size()==1);
+//assertTrue(userEntities.size()==1);
 	}
 
 	@Test
@@ -68,8 +68,45 @@ assertTrue(userEntities.size()==1);
 	assertTrue(user.getLastName().equals(lastName));
 	}
 	
-	private void  createRecords() {
+	@Test
+	final void testfindUsersByKeyword() {
+		String keyword="Abr";
+	List<UserEntity> users=	userRepository.findUsersByKeyword(keyword);
+	assertNotNull(users);
+	assertTrue(users.size()==2);
+	
+	UserEntity user=users.get(0);
+	assertTrue(user.getLastName().contains(keyword) ||
+			   user.getFirstName().contains(keyword));
+	}
+	@Test
+	final void testFindUserFirstNameAndLastNameByKeyword() {
+		String keyword="Abr";
+		List<Object[]> users=	userRepository.findUserFirstNameAndLastNameByKeyword(keyword);
+		assertNotNull(users);
+		assertTrue(users.size()==2);
 		
+		Object[] user=users.get(0);
+		String userFirstName=String.valueOf(user[0]);
+		String userLastName=String.valueOf(user[1]);
+		assertNotNull(userFirstName);
+		assertNotNull(userLastName);
+		System.out.println("\nFirstName ="+userFirstName);
+		System.out.println("\nLastName ="+userLastName+"\n");
+	}
+	
+	@Test
+	final void  updateUserEmailVerificationStatus() {
+		
+boolean newEmailVerificationStatus=false;
+userRepository.updateUserEmailVerificationStatus(newEmailVerificationStatus, "1s43fik");	
+UserEntity storedUserDetails=userRepository.findByuserId("1s43fik");
+boolean storedEmailVerificationStatus= storedUserDetails.getEmailVerificationStatus();
+assertTrue(storedEmailVerificationStatus==newEmailVerificationStatus);
+
+	}
+	
+	private void  createRecords() {
 		UserEntity	userEntity=new UserEntity();
 		userEntity.setFirstName("Adam");
 		userEntity.setLastName("Abraham");
