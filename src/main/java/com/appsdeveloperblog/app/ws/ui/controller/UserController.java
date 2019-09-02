@@ -45,7 +45,6 @@ import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 @RequestMapping("/users")
 //@CrossOrigin(origins= {"http://localhost:8083","http://localhost:8084"})//we put it here in order to give permission to all http requests
 public class UserController {
-
 //	Logger log=LoggerFactory.getLogger(UserController.class);
 	@Autowired
 	UserService userService;
@@ -54,7 +53,10 @@ public class UserController {
 
 	@Autowired
 	AddressService addressService;
-			
+		
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="authorization",value="${userController.authorizationHeader.description}",paramType="header")
+	})
 	@GetMapping(path = "/{id}", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
 	
 	public  UserRest getUser(@PathVariable String id) {
@@ -88,6 +90,10 @@ public class UserController {
 //		return returnValue;
 //	}
 
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="authorization",value="${userController.authorizationHeader.description}",paramType="header")
+	})
+	
 	@PostMapping(consumes = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE }, produces = {
 			MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
 
@@ -101,6 +107,9 @@ public class UserController {
 		return returnValue;
 	}
 
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="authorization",value="${userController.authorizationHeader.description}",paramType="header")
+	})
 	@PutMapping(path = "/{id}", consumes = { MediaType.APPLICATION_XML_VALUE,
 			MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_XML_VALUE,
 					MediaType.APPLICATION_JSON_VALUE })
@@ -118,6 +127,9 @@ public class UserController {
 		return returnValue;
 	}
 
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="authorization",value="${userController.authorizationHeader.description}",paramType="header")
+	})
 	@DeleteMapping(path = "/{id}", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
 	public OperationStatusModel deleteUser(@PathVariable String id) {
 		OperationStatusModel returnValue = new OperationStatusModel();
@@ -143,7 +155,9 @@ public class UserController {
 		}
 		return returnValue;
 	}
-
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="authorization",value="${userController.authorizationHeader.description}",paramType="header")
+	})
 	// http://localhost:8080/gys/users/fdgguseridl0ijl/addresses
 	@GetMapping(path = "/{id}/addresses", produces = { MediaType.APPLICATION_XML_VALUE,	MediaType.APPLICATION_JSON_VALUE,"application/hal+json"})
 	public Resources<AddressesRest> getUserAddresses(@PathVariable String id) {
@@ -166,7 +180,9 @@ addressRest.add(userLink);
 		}
 		return new Resources<>(addressesListRestModel) ;
 	}
-
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="authorization",value="${userController.authorizationHeader.description}",paramType="header")
+	})
 	@GetMapping(path = "/{userId}/addresses/{addressId}", produces = { MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE ,"application/hal+json"})
 	public Resource <AddressesRest> getUserAddress(@PathVariable String userId, @PathVariable String addressId) {
 
