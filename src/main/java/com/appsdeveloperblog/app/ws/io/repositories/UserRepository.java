@@ -55,5 +55,23 @@ import com.appsdeveloperblog.app.ws.io.entity.UserEntity;
 	void updateUserEmailVerificationStatus(@Param("emailVerificationStatus") boolean emailVerificationStatus,@Param("userId")String userId);
 	
 	
+	// Using Java Persistence Query Language(JPQL)
+	
+	@Query("select user from UserEntity user where user.userId=:userId")
+	UserEntity findUserEntityByUserId(@Param("userId") String userId);
+	
+	
+	@Query("select user.firstName,user.lastName from UserEntity user where user.userId=:userId")
+	List<Object []> getUserEntityFullNameById(@Param("userId") String userId);
+	
+	//JPQL
+	@Modifying
+	@Transactional
+	@Query(value="update UserEntity u set u.emailVerificationStatus=:emailVerificationStatus where u.userId=:userId")
+	void updateUserEntityEmailVerificationStatus(
+			@Param("emailVerificationStatus") boolean emailVerificationStatus,
+			@Param("userId")String userId);
+	
+	
 }
 
