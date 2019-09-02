@@ -12,6 +12,7 @@ import org.springframework.hateoas.Link;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,11 +34,16 @@ import com.appsdeveloperblog.app.ws.ui.model.response.AddressesRest;
 import com.appsdeveloperblog.app.ws.ui.model.response.OperationStatusModel;
 import com.appsdeveloperblog.app.ws.ui.model.response.RequestOperationStatus;
 import com.appsdeveloperblog.app.ws.ui.model.response.UserRest;
+
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 
 @RestController
 @RequestMapping("/users")
+//@CrossOrigin(origins= {"http://localhost:8083","http://localhost:8084"})//we put it here in order to give permission to all http requests
 public class UserController {
 
 //	Logger log=LoggerFactory.getLogger(UserController.class);
@@ -50,6 +56,7 @@ public class UserController {
 	AddressService addressService;
 			
 	@GetMapping(path = "/{id}", produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
+	
 	public  UserRest getUser(@PathVariable String id) {
 		UserRest returnValue = new UserRest();
 		UserDto userDto = userService.getUserByUserId(id);
@@ -121,8 +128,11 @@ public class UserController {
 		return returnValue;
 	}
 
+	@ApiImplicitParams({
+		@ApiImplicitParam(name="authorization",value="${userController.authorizationHeader.description}",paramType="header")
+	})
 	@GetMapping(produces = { MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE })
-	public List<UserRest> getUser(@RequestParam(value = "page", defaultValue = "0") int page,
+	public List<UserRest> getUsers(@RequestParam(value = "page", defaultValue = "0") int page,
 			@RequestParam(value = "limit", defaultValue = "25") int limit) {
 		List<UserRest> returnValue = new ArrayList<>();
 		List<UserDto> users = userService.getUsers(page, limit);
@@ -177,6 +187,8 @@ addressRest.add(userLink);
 	
 	//http://localhost:8080/mobile-app-ws/users/email-verification?token=ter12w3df42fashh
 	@GetMapping(path="/email-verification", produces = { MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE })
+//	@CrossOrigin(origins="*")//this will allow any response ajax 
+//	@CrossOrigin(origins= {"http://localhost:8083","http://localhost:8084"})//this will allow from these ports 
 	public OperationStatusModel verifyEmailToken(@RequestParam(value="token")String token) {
 		
 		OperationStatusModel returnValue=new OperationStatusModel();
