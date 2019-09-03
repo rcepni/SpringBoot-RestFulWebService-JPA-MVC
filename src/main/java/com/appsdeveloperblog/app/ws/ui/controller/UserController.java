@@ -37,6 +37,7 @@ import com.appsdeveloperblog.app.ws.ui.model.response.UserRest;
 
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
 import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
@@ -54,6 +55,9 @@ public class UserController {
 	@Autowired
 	AddressService addressService;
 		
+	
+//	@ApiOperation(value ="The Get User Details Web Service Endpoint" ,notes="This web Service Endpoint returns user Details.For example: /users/g0fdjth8")//we can add these to properties file
+	@ApiOperation(value ="The Get User Details Web Service Endpoint" ,notes="${UserController.GetUser.ApiOperation.Notes}")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="authorization",value="${userController.authorizationHeader.description}",paramType="header")
 	})
@@ -90,6 +94,7 @@ public class UserController {
 //		return returnValue;
 //	}
 
+	@ApiOperation(value ="The createUser  Web Service Endpoint" ,notes="${UserController.CreateUser.ApiOperation.Notes}")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="authorization",value="${userController.authorizationHeader.description}",paramType="header")
 	})
@@ -107,13 +112,14 @@ public class UserController {
 		return returnValue;
 	}
 
+	@ApiOperation(value ="The updateUser  Web Service Endpoint" ,notes="${UserController.UpdateUser.ApiOperation.Notes}")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="authorization",value="${userController.authorizationHeader.description}",paramType="header")
 	})
 	@PutMapping(path = "/{id}", consumes = { MediaType.APPLICATION_XML_VALUE,
 			MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_XML_VALUE,
 					MediaType.APPLICATION_JSON_VALUE })
-	public UserRest updateteUser(@PathVariable String id, @RequestBody UserDetailsRequestModel userDetails) {
+	public UserRest updateUser(@PathVariable String id, @RequestBody UserDetailsRequestModel userDetails) {
 		UserRest returnValue = new UserRest();
 //		if(userDetails.getFirstName().isEmpty()) throw new UserServiceException(ErrorMessages.MISSING_REQUIRED_FIELD.getErrorMessage());
 //		if(userDetails.getFirstName().isEmpty()) throw new NullPointerException("object is null");
@@ -126,7 +132,7 @@ public class UserController {
 
 		return returnValue;
 	}
-
+	@ApiOperation(value ="The deleteUser  Web Service Endpoint" ,notes="${UserController.deleteUser.ApiOperation.Notes}")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="authorization",value="${userController.authorizationHeader.description}",paramType="header")
 	})
@@ -139,7 +145,7 @@ public class UserController {
 		returnValue.setOperationName(RequestOperationStatus.SUCCESS.name());
 		return returnValue;
 	}
-
+	@ApiOperation(value ="The getUsers  Web Service Endpoint" ,notes="${UserController.getUsers.ApiOperation.Notes}")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="authorization",value="${userController.authorizationHeader.description}",paramType="header")
 	})
@@ -155,10 +161,12 @@ public class UserController {
 		}
 		return returnValue;
 	}
+	
+	@ApiOperation(value ="The getUserAddresses  Web Service Endpoint" ,notes="${UserController.getUserAddresses.ApiOperation.Notes}")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="authorization",value="${userController.authorizationHeader.description}",paramType="header")
 	})
-	// http://localhost:8080/gys/users/fdgguseridl0ijl/addresses
+	// http://localhost:8080/as/users/fdgguseridl0ijl/addresses
 	@GetMapping(path = "/{id}/addresses", produces = { MediaType.APPLICATION_XML_VALUE,	MediaType.APPLICATION_JSON_VALUE,"application/hal+json"})
 	public Resources<AddressesRest> getUserAddresses(@PathVariable String id) {
 
@@ -180,6 +188,9 @@ addressRest.add(userLink);
 		}
 		return new Resources<>(addressesListRestModel) ;
 	}
+	
+	
+	@ApiOperation(value ="The getUserAddress  Web Service Endpoint" ,notes="${UserController.getUserAddress.ApiOperation.Notes}")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name="authorization",value="${userController.authorizationHeader.description}",paramType="header")
 	})
@@ -200,7 +211,7 @@ addressRest.add(userLink);
 		return new Resource<>( addressesRestModel);
 	}
 	
-	
+	@ApiOperation(value ="The email-verification  Web Service Endpoint" ,notes="${UserController.emailVerification.ApiOperation.Notes}")
 	//http://localhost:8080/mobile-app-ws/users/email-verification?token=ter12w3df42fashh
 	@GetMapping(path="/email-verification", produces = { MediaType.APPLICATION_XML_VALUE,MediaType.APPLICATION_JSON_VALUE })
 //	@CrossOrigin(origins="*")//this will allow any response ajax 
@@ -221,6 +232,8 @@ addressRest.add(userLink);
 	 /*
     * http://localhost:8080/mobile-app-ws/users/password-reset-request
     * */
+	
+	@ApiOperation(value ="The password-reset-request Web Service Endpoint" ,notes="${UserController.password-reset-request.ApiOperation.Notes}")
    @PostMapping(path = "/password-reset-request", 
            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
@@ -240,6 +253,9 @@ addressRest.add(userLink);
 
        return returnValue;
    }
+	
+
+	@ApiOperation(value ="The password-reset Web Service Endpoint" ,notes="${UserController.password-reset ApiOperation.Notes}")
    @PostMapping(path = "/password-reset",
            consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}
    )
