@@ -16,7 +16,7 @@ import com.appsdeveloperblog.app.ws.shared.dto.UserDto;
 @Service
 public class AmazonSES {
 	// This address must be verified with Amazon SES.
-	final String FROM = "hillparkwayy@gmail.com";
+	final String FROM = "sena.eu4810@gmail.com";
 
 	// The subject line for the email.
 	final String SUBJECT = "One last step to complete your registration with PhotoApp";
